@@ -16,7 +16,7 @@ html.modal-is-locked{
   */
  body,
  html {
-   background: #080616;
+   background: rgb(253, 252, 252);
    font-family: 'Roboto', sans-serif;
    text-align: center;
  }
@@ -63,6 +63,7 @@ html.modal-is-locked{
    
    .modal-overlay {
      display: flex;
+     flex-direction: row;
      align-items: center;
      justify-content: center;
      position: fixed;
@@ -90,7 +91,7 @@ html.modal-is-locked{
   * Modal
   */
  .modal {
-   display: flex;
+   display: none;
    align-items: center;
    justify-content: center;
    flex-direction: column;
@@ -121,6 +122,7 @@ html.modal-is-locked{
      backface-visibility: hidden;
      transition: opacity $speed $easing, transform $speed $easing;
      transition-delay: $delay;
+     display: block;
      
      svg {
        width: 1.75em;
