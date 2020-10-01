@@ -132,6 +132,7 @@ button:focus {
   visibility: visible;
   opacity: 1;
   transform: scale(1);
+  display: flex;
 }
 
 .modal.active .modal-content {

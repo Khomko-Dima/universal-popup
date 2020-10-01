@@ -141,6 +141,7 @@ html.modal-is-locked{
      visibility: visible;
      opacity: 1;
      transform: scale(1);
+     display: flex;
      
      .modal-content {
        opacity: 1;

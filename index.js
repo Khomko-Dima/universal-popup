@@ -1,45 +1,72 @@
 window.addEventListener('DOMContentLoaded', function() {
 	// Modal
     "use strict";
+    const qwe = document.getElementById("b64");
+    qwe.addEventListener("cut", e => {
+        console.log(e);
+        const selection = document.getSelection();
+        console.log('selection: ', selection);
+        event.clipboardData.setData();
+        selection.deleteFromDocument();
+        event.preventDefault();
+    });
+
+
     const 
             html = document.querySelector('html'),
             overlay = document.querySelector('.modal-overlay'), //оврелей фона
             modalMass = [...(document.querySelectorAll('.Modal'))], //все модальные окна
             open_modal = document.querySelectorAll('.open_modal'); //все кнопки вызова модального окна
     let modal = null;
-    const closeModal = (e) => { //Закрытие модального окна
-        e.preventDefault();
-        const target = e.target;
-        if (target.classList.contains('modal-overlay') || target.closest('.close-modal')) {
+    let modalStatus = false;
+    
+
+    const modalStatusFunc = (opt = false) => {
+        modalStatus = opt;
+        if (!modal) return;
+        if (!modalStatus) {
             modal.classList.remove('active');
             overlay.classList.remove('active');
             html.classList.remove('modal-is-locked');
-            modal.style.display = 'none';
             overlay.removeEventListener('click', closeModal);
+        } else {
+            modal.classList.add('active');
+            overlay.classList.add('active');
+            html.classList.add('modal-is-locked');
+        }
+    }
+
+    const closeModal = (e) => { //Закрытие модального окна
+        const target = e.target;
+        if (target.classList.contains('modal-overlay') || target.closest('.close-modal')) {
+            modalStatusFunc();
         }
     };
+
     const shoyPopup = (modal) => {
-        modal.classList.add('active');
-        overlay.classList.add('active');
-        html.classList.add('modal-is-locked');
-        modal.style.display = 'flex';
+        modalStatusFunc(true);
     };
+
     const creatorPopup = (val) => {
-        const atr = val.dataset; //все значения data атрибутов
+        const opt = val.dataset; //все значения data атрибутов
         const modalContent = modal.querySelector('.modal-content');
-        modalContent.innerHTML = `<h3>${atr.header}</h3>`
+        modalContent.innerHTML = `<h3>${opt.header}</h3>`
     };
+
     const openModal = (e) => {
-        const dataAction = event.target.dataset.action; // дата атрибут элемента по каторому нажали
+        const target = e.target;
+        const dataAction = target.dataset.action; // дата атрибут элемента по каторому нажали
         modal = modalMass.filter(el => el.dataset.target == dataAction)[0];// получение модального окна со значением равному data-target
         shoyPopup(modal); // ф. открывает попап.
         if (dataAction === 'first') {
-            creatorPopup(event.target);
+            creatorPopup(target);
         }
         if (dataAction === 'second') {
-            creatorPopup(event.target)
+            creatorPopup(target)
         }
         overlay.addEventListener('click', closeModal);
     };
+
     open_modal.forEach((el) => el.addEventListener('click', openModal));
+
 });
